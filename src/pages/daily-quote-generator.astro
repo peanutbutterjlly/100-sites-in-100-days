@@ -1,0 +1,68 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Daily Quote Generator">
+  <div class="container">
+    <main>
+      <h1>Daily Quote Generator</h1>
+      <section>
+        <article class="card">
+          <p class="card-text">sample quote is here for now</p>
+          <footer class="card-footer small">
+            <span>-Steve</span>
+            <button class="btn generate">New quote</button>
+          </footer>
+        </article>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  h1 {
+    margin-bottom: 2em;
+  }
+  .container {
+    display: grid;
+    place-items: center;
+
+    min-height: 100%;
+  }
+
+  .card {
+    min-width: 300px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    max-width: 500px;
+    height: 300px;
+    padding: 35px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--shadow-lg);
+
+    backdrop-filter: blur(15px);
+  }
+
+  .card-footer {
+    color: #446;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn {
+    border: 1px solid #446;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: transparent;
+    color: #446;
+    cursor: pointer;
+  }
+</style>
