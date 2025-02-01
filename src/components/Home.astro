@@ -1,5 +1,8 @@
 ---
+import { getSitePages } from '../utils/getSitePages';
 
+const sites = import.meta.glob('../pages/sites/*.astro');
+const sitePages = Object.keys(sites).map(getSitePages).filter(Boolean);
 ---
 
 <div class="container">
@@ -18,6 +21,17 @@
         </a>.
       </small>
     </p>
+    <section>
+      <ul>
+        {
+          sitePages.map(({ route, title }) => (
+            <li>
+              <a href={route}>{title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
   </main>
 </div>
 
