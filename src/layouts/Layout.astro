@@ -65,7 +65,11 @@ const { title = '100 Sites in 100 Days' } = Astro.props;
     scroll-behavior: smooth;
   }
 
-  :where(html, body) {
+  :where(html) {
+    height: 100%;
+  }
+
+  :where(body) {
     height: 100%;
     /* uncomment the code below to constrain width of entire site/page, add some padding, and center it... e.g. you want minimal styles */
     background-color: hsl(0, 0%, 97%);

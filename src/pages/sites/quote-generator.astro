@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Quote Generator">
+  <div class="container">
+    <main>
+      <h1>Quote Generator</h1>
+      <section>
+        <article class="card">
+          <p class="card-text">sample quote is here for now</p>
+          <footer class="card-footer small">
+            <span>-Steve</span>
+            <button class="btn generate">New quote</button>
+          </footer>
+        </article>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  const btn = document.querySelector('.generate');
+  const cardText = document.querySelector('.card-text');
+  const cardFooter = document.querySelector('.card-footer');
+  const quoteAuthor = cardFooter.querySelector('span');
+  let isFetching = false;
+  let quotes: any[] = [];
+
+  btn.addEventListener('click', updateQuote);
+
+  async function fetchQuotes() {
+    if (isFetching || quotes.length > 0) return;
+
+    isFetching = true;
+
+    try {
+      const response = await fetch('/quotes.json');
+      const data = await response.json();
+      quotes = data.quotes;
+    } catch (error) {
+      return error;
+    } finally {
+      isFetching = false;
+    }
+  }
+
+  async function updateQuote() {
+    btn.disabled = true;
+    await fetchQuotes();
+    setTimeout(() => (btn.disabled = false), 500);
+
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const quote = quotes[randomIndex];
+
+    cardText.innerText = quote.quote;
+    quoteAuthor.innerText = quote.author;
+  }
+
+  updateQuote();
+</script>
+
+<style>
+  h1 {
+    margin-bottom: 2em;
+    text-align: center;
+  }
+  .container {
+    display: grid;
+    place-items: center;
+
+    min-height: 100%;
+  }
+
+  .card {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 30px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: var(--shadow-lg);
+
+    backdrop-filter: blur(15px);
+  }
+
+  .card-footer {
+    color: #446;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn {
+    border: 1px solid #446;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: transparent;
+    box-shadow: var(--shadow-sm);
+    color: #446;
+    cursor: pointer;
+  }
+
+  @media (min-width: 555px) {
+    .card {
+      height: 350px;
+      width: 500px;
+
+      padding: 35px;
+    }
+  }
+</style>
