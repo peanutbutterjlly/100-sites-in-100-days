@@ -1,0 +1,170 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<script>
+  function calculateTip() {
+    const billAmount = parseFloat(document.getElementById('billAmount').value);
+    const tipPercentage = parseFloat(
+      document.getElementById('tipPercentage').value
+    );
+    const peopleCount =
+      parseInt(document.getElementById('peopleCount').value) || 1;
+
+    if (isNaN(billAmount) || isNaN(tipPercentage)) {
+      alert('Please enter valid numbers');
+      return;
+    }
+
+    const tipAmount = billAmount * (tipPercentage / 100);
+    const totalBill = billAmount + tipAmount;
+    const tipPerPerson = tipAmount / peopleCount;
+    const totalPerPerson = totalBill / peopleCount;
+
+    document.getElementById('tipAmount').textContent =
+      `$${tipAmount.toFixed(2)}`;
+    document.getElementById('totalBill').textContent =
+      `$${totalBill.toFixed(2)}`;
+    document.getElementById('tipPerPerson').textContent =
+      `$${tipPerPerson.toFixed(2)}`;
+    document.getElementById('totalPerPerson').textContent =
+      `$${totalPerPerson.toFixed(2)}`;
+  }
+
+  const button = document.querySelector('.btn');
+
+  button.addEventListener('click', calculateTip);
+</script>
+
+<Layout title="Tip Calculator">
+  <div class="container">
+    <h1>Tip Calculator</h1>
+
+    <div class="guideline">
+      <h2>How to Use the Tip Calculator</h2>
+      <ol>
+        <li>Enter the total bill amount in the first field</li>
+        <li>Select or enter the tip percentage you want to give</li>
+        <li>Optional: Specify the number of people splitting the bill</li>
+        <li>Click "Calculate Tip" to see the breakdown</li>
+      </ol>
+      <p class="tip-guide">
+        Tip Guidelines: • 10-15%: Standard service • 15-20%: Good service •
+        20-25%: Excellent service
+      </p>
+    </div>
+
+    <div class="calculator">
+      <div class="input-group">
+        <label for="billAmount">Bill Amount ($)</label>
+        <input
+          type="number"
+          id="billAmount"
+          min="0"
+          step="0.01"
+          placeholder="Enter bill amount"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="tipPercentage">Tip Percentage (%)</label>
+        <select
+          id="tipPercentage"
+          onchange="if(this.value === 'custom') { 
+                document.getElementById('customTip').style.display = 'block'; 
+            } else { 
+                document.getElementById('customTip').style.display = 'none'; 
+            }"
+        >
+          <option value="10">10%</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+          <option value="custom">Custom</option>
+        </select>
+        <input
+          type="number"
+          id="customTip"
+          style="display:none;"
+          min="0"
+          max="100"
+          placeholder="Enter custom tip %"
+        />
+      </div>
+
+      <div class="input-group">
+        <label for="peopleCount">Number of People</label>
+        <input
+          type="number"
+          id="peopleCount"
+          min="1"
+          value="1"
+          placeholder="Number of people"
+        />
+      </div>
+
+      <button class="btn">Calculate Tip</button>
+
+      <div class="results">
+        <h3>Results</h3>
+        <p>Tip Amount: <span id="tipAmount">$0.00</span></p>
+        <p>Total Bill: <span id="totalBill">$0.00</span></p>
+        <p>Tip per Person: <span id="tipPerPerson">$0.00</span></p>
+        <p>Total per Person: <span id="totalPerPerson">$0.00</span></p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .container {
+    max-width: 600px;
+    margin-inline: auto;
+    padding: 20px;
+  }
+
+  .guideline {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tip-guide {
+    font-style: italic;
+    color: #666;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .results {
+    margin-top: 20px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+  }
+</style>
